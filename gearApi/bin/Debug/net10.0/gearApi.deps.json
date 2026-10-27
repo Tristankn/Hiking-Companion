@@ -1,0 +1,127 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "gearApi/1.0.0": {
+        "dependencies": {
+          "Microsoft.AspNetCore.OpenApi": "10.0.14",
+          "Microsoft.EntityFrameworkCore.InMemory": "10.0.14",
+          "Scalar.AspNetCore": "2.18.3"
+        },
+        "runtime": {
+          "gearApi.dll": {}
+        }
+      },
+      "Microsoft.AspNetCore.OpenApi/10.0.14": {
+        "dependencies": {
+          "Microsoft.OpenApi": "2.12.2"
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.AspNetCore.OpenApi.dll": {
+            "assemblyVersion": "10.0.14.0",
+            "fileVersion": "10.0.1426.52326"
+          }
+        }
+      },
+      "Microsoft.EntityFrameworkCore/10.0.14": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.Abstractions": "10.0.14"
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.EntityFrameworkCore.dll": {
+            "assemblyVersion": "10.0.14.0",
+            "fileVersion": "10.0.1426.52326"
+          }
+        }
+      },
+      "Microsoft.EntityFrameworkCore.Abstractions/10.0.14": {
+        "runtime": {
+          "lib/net10.0/Microsoft.EntityFrameworkCore.Abstractions.dll": {
+            "assemblyVersion": "10.0.14.0",
+            "fileVersion": "10.0.1426.52326"
+          }
+        }
+      },
+      "Microsoft.EntityFrameworkCore.InMemory/10.0.14": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "10.0.14"
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.EntityFrameworkCore.InMemory.dll": {
+            "assemblyVersion": "10.0.14.0",
+            "fileVersion": "10.0.1426.52326"
+          }
+        }
+      },
+      "Microsoft.OpenApi/2.12.2": {
+        "runtime": {
+          "lib/net8.0/Microsoft.OpenApi.dll": {
+            "assemblyVersion": "2.12.2.0",
+            "fileVersion": "2.12.2.0"
+          }
+        }
+      },
+      "Scalar.AspNetCore/2.18.3": {
+        "runtime": {
+          "lib/net10.0/Scalar.AspNetCore.dll": {
+            "assemblyVersion": "2.18.3.0",
+            "fileVersion": "2.18.3.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "gearApi/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft.AspNetCore.OpenApi/10.0.14": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-3M6yO4nv8fmvM/1X7DqQcMxw/ptNLBcUzZt19SBEyfZF32gqZuwoPNnYd1xlDnFvQOGOkZDncf7p9E24blcTkQ==",
+      "path": "microsoft.aspnetcore.openapi/10.0.14",
+      "hashPath": "microsoft.aspnetcore.openapi.10.0.14.nupkg.sha512"
+    },
+    "Microsoft.EntityFrameworkCore/10.0.14": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-vY3931PYPIDBbKovGHbACmpOWvURvKNyRXfCjMh5yLW+FH6vLWeqUu2xzSCRo4Oz4tgx9GYpd0JlV5LDyAoQdg==",
+      "path": "microsoft.entityframeworkcore/10.0.14",
+      "hashPath": "microsoft.entityframeworkcore.10.0.14.nupkg.sha512"
+    },
+    "Microsoft.EntityFrameworkCore.Abstractions/10.0.14": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/SaznoTTFfKzxYEbCPAwwKBR3XT92DZgH4jJ3/cqs2skP3o2D+TL6i9Aaj+8Azwtu6/sRd0ve4P2mN12nfVmCw==",
+      "path": "microsoft.entityframeworkcore.abstractions/10.0.14",
+      "hashPath": "microsoft.entityframeworkcore.abstractions.10.0.14.nupkg.sha512"
+    },
+    "Microsoft.EntityFrameworkCore.InMemory/10.0.14": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-g70gixwkCTNuM6lMfElDzU9mtYVX6CYZ6ZhFbxZlvQv7Y9fRHmypflGHj3ivFARSlLgYuGmeEY9ebctOcHqp1w==",
+      "path": "microsoft.entityframeworkcore.inmemory/10.0.14",
+      "hashPath": "microsoft.entityframeworkcore.inmemory.10.0.14.nupkg.sha512"
+    },
+    "Microsoft.OpenApi/2.12.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ZkT7qiJe0Kj0+DTZOZo+xrDy1kNmdsWFQVPIQLNx9ZJ0T9cB2LG7r+Bi60so8/+yg1nkS7QCPadrzsTG4VPKrA==",
+      "path": "microsoft.openapi/2.12.2",
+      "hashPath": "microsoft.openapi.2.12.2.nupkg.sha512"
+    },
+    "Scalar.AspNetCore/2.18.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6KXPOkCNnoZTXBl8GVNxq/zpS9UdGnz1a23EWy3CEiwYbZKQ5gi2APZ5mBruXcdXIr+ZXSZYiwX81UagjKFxeg==",
+      "path": "scalar.aspnetcore/2.18.3",
+      "hashPath": "scalar.aspnetcore.2.18.3.nupkg.sha512"
+    }
+  }
+}
