@@ -1,0 +1,6 @@
+@gearApi_HostAddress = http://localhost:5289
+
+GET {{gearApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

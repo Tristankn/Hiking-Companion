@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "gaJuXQ9jwKQ=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Tristan Natvig\\Projects\\Turplanlegger\\gearApi\\gearApi.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Tristan Natvig\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.14\\microsoft.aspnetcore.openapi.10.0.14.nupkg.sha512",
+    "C:\\Users\\Tristan Natvig\\.nuget\\packages\\microsoft.entityframeworkcore\\10.0.14\\microsoft.entityframeworkcore.10.0.14.nupkg.sha512",
+    "C:\\Users\\Tristan Natvig\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\10.0.14\\microsoft.entityframeworkcore.abstractions.10.0.14.nupkg.sha512",
+    "C:\\Users\\Tristan Natvig\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\10.0.14\\microsoft.entityframeworkcore.analyzers.10.0.14.nupkg.sha512",
+    "C:\\Users\\Tristan Natvig\\.nuget\\packages\\microsoft.entityframeworkcore.inmemory\\10.0.14\\microsoft.entityframeworkcore.inmemory.10.0.14.nupkg.sha512",
+    "C:\\Users\\Tristan Natvig\\.nuget\\packages\\microsoft.openapi\\2.12.2\\microsoft.openapi.2.12.2.nupkg.sha512",
+    "C:\\Users\\Tristan Natvig\\.nuget\\packages\\scalar.aspnetcore\\2.18.3\\scalar.aspnetcore.2.18.3.nupkg.sha512"
+  ],
+  "logs": []
+}
