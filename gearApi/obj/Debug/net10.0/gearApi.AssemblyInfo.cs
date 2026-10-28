@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("gearApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b09d27a679c5ab3828db62fdbe2345c22879231c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a453442fa811c01902bf830b13cb5336f6d2a699")]
 [assembly: System.Reflection.AssemblyProductAttribute("gearApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("gearApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

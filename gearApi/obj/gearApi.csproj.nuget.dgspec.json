@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Tristan Natvig\\Projects\\Turplanlegger\\gearApi\\gearApi.csproj": {}
+    "C:\\Users\\Tristan Natvig\\Projects\\HikingCompanion\\gearApi\\gearApi.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Tristan Natvig\\Projects\\Turplanlegger\\gearApi\\gearApi.csproj": {
+    "C:\\Users\\Tristan Natvig\\Projects\\HikingCompanion\\gearApi\\gearApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Tristan Natvig\\Projects\\Turplanlegger\\gearApi\\gearApi.csproj",
+        "projectUniqueName": "C:\\Users\\Tristan Natvig\\Projects\\HikingCompanion\\gearApi\\gearApi.csproj",
         "projectName": "gearApi",
-        "projectPath": "C:\\Users\\Tristan Natvig\\Projects\\Turplanlegger\\gearApi\\gearApi.csproj",
+        "projectPath": "C:\\Users\\Tristan Natvig\\Projects\\HikingCompanion\\gearApi\\gearApi.csproj",
         "packagesPath": "C:\\Users\\Tristan Natvig\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Tristan Natvig\\Projects\\Turplanlegger\\gearApi\\obj\\",
+        "outputPath": "C:\\Users\\Tristan Natvig\\Projects\\HikingCompanion\\gearApi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Tristan Natvig\\AppData\\Roaming\\NuGet\\NuGet.Config"
