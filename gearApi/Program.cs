@@ -3,7 +3,10 @@ using Scalar.AspNetCore;
 
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<GearDb>(opt => opt.UseInMemoryDatabase("GearList"));
+
+builder.Services.AddDbContext<GearDb>(opt =>
+    opt.UseNpgsql(builder.Configuration.GetConnectionString("GearDb")));
+
 builder.Services.AddOpenApi();
 var app = builder.Build();
 
