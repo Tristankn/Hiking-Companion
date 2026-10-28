@@ -32,23 +32,23 @@ A web application for managing hiking equipment, creating packing lists, and tra
 
 ### Docker Setup
 
-Start the PostgreSQL container from the project root:
+Start PostgreSQL from the project root:
 
 ```bash
 docker compose up -d
 ```
 
-Stop the container:
+Check container status:
 
 ```bash
-docker compose stop
+docker compose ps
 ```
 
 ### Database Migrations
 
 When changing EF Core data models that affect the database schema, create a new migration.
 
-Run from the backend project directory:
+Run from the backend project directory (`gearApi/`):
 
 ```bash
 # Create a migration
@@ -60,16 +60,33 @@ dotnet ef database update
 
 Replace `MigrationName` with a descriptive name, e.g. `AddGearDescription`.
 
-Ensure PostgreSQL is running before applying migrations.
+### Inspect Database Tables
 
-## API Endpoints
+Run from the project root to list PostgreSQL tables:
 
-*To be documented.*
+```bash
+docker compose exec postgres psql -U postgres -d hiking_companion -c "\dt"
+```
 
-## Project Structure
+### Test Database Persistence
 
-*To be documented.*
+1. Start the API:
 
-## Future Development
+   ```bash
+   dotnet watch run
+   ```
 
-*To be added.*
+2. Create equipment using `POST /gearlist`.
+3. Verify the equipment exists using `GET /gearlist`.
+4. Stop and restart the API.
+5. Run `GET /gearlist` again and verify the equipment still exists.
+
+To additionally verify persistence across a database restart, run from the project root:
+
+```bash
+docker compose restart postgres
+```
+
+Then repeat the GET request after PostgreSQL is ready.
+
+Data should persist across application and container restarts.

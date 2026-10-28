@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("gearApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8aab294a75f9a500009cd60ed84cd69d7edf774b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+98674bc246b6330ff3dd0d278b8ea6a5bbc2e06f")]
 [assembly: System.Reflection.AssemblyProductAttribute("gearApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("gearApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
