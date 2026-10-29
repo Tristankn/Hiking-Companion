@@ -1,3 +1,4 @@
+using gearApi.DTOs;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
@@ -19,7 +20,6 @@ if (app.Environment.IsDevelopment())
 var gear = app.MapGroup("/gearlist");
 
 gear.MapGet("/", GetAllGear);
-gear.MapGet("/packed", GetPackedGear);
 gear.MapGet("/{id}", GetGear);
 gear.MapPost("/", CreateGear);
 gear.MapPut("/{id}", UpdateGear);
@@ -32,11 +32,6 @@ static async Task<IResult> GetAllGear(GearDb db)
     return TypedResults.Ok(await db.Gear.ToArrayAsync());
 }
 
-static async Task<IResult> GetPackedGear(GearDb db)
-{
-    return TypedResults.Ok(await db.Gear.Where(t => t.Packed).ToListAsync());
-}
-
 static async Task<IResult> GetGear(int id, GearDb db)
 {
     return await db.Gear.FindAsync(id)
@@ -45,24 +40,43 @@ static async Task<IResult> GetGear(int id, GearDb db)
             : TypedResults.NotFound();
 }
 
-static async Task<IResult> CreateGear(Gear gear, GearDb db)
+static async Task<IResult> CreateGear(GearRequest request, GearDb db)
 {
+    string? error = ValidateGear(request);
+    if(error is not null)
+    {
+        return TypedResults.BadRequest(error);
+    }
+
+    var gear = new Gear
+    {
+        Name = request.Name,
+        Category = request.Category,
+        Weight = request.Weight
+    };
+
     db.Gear.Add(gear);
+
     await db.SaveChangesAsync();
 
     return TypedResults.Created($"/gearlist/{gear.Id}", gear);
 }
 
-static async Task<IResult> UpdateGear(int id, Gear inputGear, GearDb db)
+static async Task<IResult> UpdateGear(int id, GearRequest request, GearDb db)
 {
-    var gear = await db.Gear.FindAsync(id);
+    string? error = ValidateGear(request);
+    if(error is not null)
+    {
+        return TypedResults.BadRequest(error);
+    }
 
+    var gear = await db.Gear.FindAsync(id);
     if (gear is null) return TypedResults.NotFound();
 
-    gear.Name = inputGear.Name;
-    gear.Category = inputGear.Category;
-    gear.Weight = inputGear.Weight;
-    gear.Packed = inputGear.Packed;
+
+    gear.Name = request.Name;
+    gear.Category = request.Category;
+    gear.Weight = request.Weight;
 
     await db.SaveChangesAsync();
 
@@ -79,4 +93,21 @@ static async Task<IResult> DeleteGear(int id, GearDb db)
     }
 
     return TypedResults.NotFound();
+}
+
+static string? ValidateGear(GearRequest request)
+{
+    if (request.Weight < 0)
+    {
+        return "Invalid Weight";
+    }
+    if(string.IsNullOrWhiteSpace(request.Name)){
+        return "Name cannot be empty";
+    }
+    if (string.IsNullOrWhiteSpace(request.Category))
+    {
+        return "Category cannot be empty";
+    }
+    
+    return null;
 }

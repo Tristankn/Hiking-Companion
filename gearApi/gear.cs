@@ -4,5 +4,4 @@ public class Gear
     public string? Name { get; set; }
     public string? Category { get; set; }
     public int Weight { get; set; }
-    public bool Packed { get; set; }
 }

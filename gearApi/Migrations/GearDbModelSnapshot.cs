@@ -34,9 +34,6 @@ namespace gearApi.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<bool>("Packed")
-                        .HasColumnType("boolean");
-
                     b.Property<int>("Weight")
                         .HasColumnType("integer");
 
