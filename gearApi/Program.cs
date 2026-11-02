@@ -34,6 +34,8 @@ categories.MapGet("/{CategoryId}/gear", GetGearInCategory);
 categories.MapPost("/", CreateCategory);
 categories.MapDelete("/{id}", DeleteCategory);
 
+var packinglist = app.MapGroup("/packinglist");
+
 app.Run();
 
 static async Task<IResult> GetAllGear(GearDb db)
