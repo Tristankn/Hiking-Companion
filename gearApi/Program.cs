@@ -239,14 +239,26 @@ static async Task<IResult> AddGearToPackingList(int PackingListId, int GearId, G
     var packinglist = await db.PackingLists.FindAsync(PackingListId);
     if (packinglist is null) return TypedResults.NotFound();
 
+    var item = await db.PackingListItems
+        .FirstOrDefaultAsync(i => 
+        i.PackingListId == PackingListId &&
+        i.GearId == GearId);
+    
+    if(item != null)
+    {
+        item.Quantity += 1;
+    }
+    else
+    {
+        var gear = await db.Gear.FindAsync(GearId);
+        if (gear is null) return TypedResults.NotFound();
 
-    var gear = await db.Gear.FindAsync(GearId);
-    if (gear is null) return TypedResults.NotFound();
+        var packeditem = new PackingListItem();
+        packeditem.Gear = gear;
 
-    var packeditem = new PackingListItem();
-    packeditem.Gear = gear;
+        packinglist.Items.Add(packeditem);
 
-    packinglist.Items.Add(packeditem);
+    }
 
     await db.SaveChangesAsync();
     return TypedResults.NoContent();
@@ -266,7 +278,7 @@ static async Task<IResult> ChangeGearQuantity (int PackingListId, int GearId, in
         {
             item.Quantity += 1;
         }
-        else
+        else if(op == -1)
         {
             item.Quantity -= 1;
         }

@@ -111,7 +111,7 @@ namespace gearApi.Migrations
 
                     b.HasIndex("PackingListId");
 
-                    b.ToTable("PackingListItem");
+                    b.ToTable("PackingListItems");
                 });
 
             modelBuilder.Entity("gearApi.Models.Gear", b =>
