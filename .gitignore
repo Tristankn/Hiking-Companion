@@ -1,5 +1,61 @@
+# =========================
+# .NET / C#
+# =========================
+
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# =========================
+# React / TypeScript / Vite
+# =========================
+
+node_modules/
+dist/
+dist-ssr/
+*.tsbuildinfo
+.vite/
+
+# =========================
+# Environment / Secrets
+# =========================
+
 .env
 .env.*
 !.env.example
-**/bin/
-**/obj/
+
+# =========================
+# Logs
+# =========================
+
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# =========================
+# IDE / Editor
+# =========================
+
+.vs/
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# =========================
+# OS Files
+# =========================
+
+.DS_Store
+Thumbs.db
+
+# =========================
+# Test / Coverage
+# =========================
+
+coverage/
+TestResults/
