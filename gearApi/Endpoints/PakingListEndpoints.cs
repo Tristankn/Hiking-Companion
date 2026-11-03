@@ -11,10 +11,11 @@ public static class PackingListEndpoints
         var packinglist = app.MapGroup("/packinglists");
 
         packinglist.MapPost("/", CreatePackinglist);
-        packinglist.MapGet("/", GetPackingLists);
-        packinglist.MapGet("/{PackingListId}/gear", GetGearInPackingList);
+        packinglist.MapGet("/", GetAllPackingLists);
+        packinglist.MapGet("/{PackingListId}", GetPackingList);
+        packinglist.MapGet("/{PackingListId}/items", GetGearInPackingList);
         packinglist.MapPost("/{PackingListId}/items/{GearId}", AddGearToPackingList);
-        packinglist.MapPut("/{PackingListId}/items/{GearId}", ChangeGearQuantity);
+        packinglist.MapPatch("/{PackingListId}/items/{GearId}", ChangeGearQuantity);
     }
 
     private static async Task<IResult> CreatePackinglist(PackingListRequest request, GearDb db)
@@ -29,7 +30,7 @@ public static class PackingListEndpoints
         return TypedResults.Created($"/packinglists/{packinglist.PackingListId}", packinglist);
     }
 
-    private static async Task<IResult> GetPackingLists(GearDb db)
+    private static async Task<IResult> GetAllPackingLists(GearDb db)
     {
         var packinglist = await db.PackingLists
         .Include(p => p.Items)
@@ -37,6 +38,14 @@ public static class PackingListEndpoints
         .ToListAsync();
 
         return TypedResults.Ok(packinglist);
+    }
+
+    static async Task<IResult> GetPackingList(int PackingListId, GearDb db)
+    {
+        return await db.PackingLists.FindAsync(PackingListId)
+            is PackingList packingList
+                ? TypedResults.Ok(packingList)
+                : TypedResults.NotFound();
     }
 
     private static async Task<IResult> GetGearInPackingList(int PackingListId, GearDb db)

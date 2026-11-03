@@ -13,7 +13,7 @@ public static class CategoryEndpoints
         categories.MapGet("/", GetAllCategories);
         categories.MapGet("/{CategoryId}/gear", GetGearInCategory);
         categories.MapPost("/", CreateCategory);
-        categories.MapDelete("/{id}", DeleteCategory);
+        categories.MapDelete("/{CategoryId}", DeleteCategory);
     }
 
     private static async Task<IResult> GetAllCategories(GearDb db)
