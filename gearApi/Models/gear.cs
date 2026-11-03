@@ -2,7 +2,7 @@ namespace gearApi.Models;
 
 public class Gear
 {
-    public int Id { get; set; }
+    public int GearId { get; set; }
     public string? Name { get; set; }
     public int Weight { get; set; }
     public int CategoryId { get; set; }

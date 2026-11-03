@@ -9,4 +9,5 @@ class GearDb : DbContext
 
     public DbSet<Gear> Gear => Set<Gear>();
     public DbSet<Category> Categories => Set<Category>();
+    public DbSet<PackingList> PackingLists => Set<PackingList>();
 }

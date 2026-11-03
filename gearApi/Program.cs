@@ -34,7 +34,13 @@ categories.MapGet("/{CategoryId}/gear", GetGearInCategory);
 categories.MapPost("/", CreateCategory);
 categories.MapDelete("/{id}", DeleteCategory);
 
-var packinglist = app.MapGroup("/packinglist");
+var packinglist = app.MapGroup("/packinglists");
+
+packinglist.MapPost("/", CreatePackinglist);
+packinglist.MapGet("/", GetPackingLists);
+packinglist.MapGet("/{PackingListId}/gear", GetGearInPackingList);
+packinglist.MapPut("/{PackingListId}", AddGearToPackingList);
+
 
 app.Run();
 
@@ -70,10 +76,10 @@ static async Task<IResult> CreateGear(GearRequest request, GearDb db)
 
     await db.SaveChangesAsync();
 
-    return TypedResults.Created($"/gear/{gear.Id}", gear);
+    return TypedResults.Created($"/gear/{gear.GearId}", gear);
 }
 
-static async Task<IResult> UpdateGear(int id, GearRequest request, GearDb db)
+static async Task<IResult> UpdateGear(int GearId, GearRequest request, GearDb db)
 {
     string? error = ValidateGear(request);
     if(error is not null)
@@ -81,7 +87,7 @@ static async Task<IResult> UpdateGear(int id, GearRequest request, GearDb db)
         return TypedResults.BadRequest(error);
     }
 
-    var gear = await db.Gear.FindAsync(id);
+    var gear = await db.Gear.FindAsync(GearId);
     if (gear is null) return TypedResults.NotFound();
 
 
@@ -94,9 +100,9 @@ static async Task<IResult> UpdateGear(int id, GearRequest request, GearDb db)
     return TypedResults.NoContent();
 }
 
-static async Task<IResult> DeleteGear(int id, GearDb db)
+static async Task<IResult> DeleteGear(int GearId, GearDb db)
 {
-    if (await db.Gear.FindAsync(id) is Gear gear)
+    if (await db.Gear.FindAsync(GearId) is Gear gear)
     {
         db.Gear.Remove(gear);
         await db.SaveChangesAsync();
@@ -191,4 +197,36 @@ static async Task<IResult> DeleteCategory(int id, GearDb db)
     }
 
     return TypedResults.NotFound();
+}
+
+static async Task<IResult> CreatePackinglist(PackingListRequest request, GearDb db)
+{
+    var packinglist = new PackingList
+    {
+        Name = request.Name
+    };
+
+    db.PackingLists.Add(packinglist);
+    await db.SaveChangesAsync();
+    return TypedResults.Created($"/packinglists/{packinglist.PackingListId}", packinglist);    
+}
+
+static async Task<IResult> GetPackingLists(GearDb db)
+{
+    return TypedResults.Ok(await db.PackingLists.ToArrayAsync());
+}
+
+static async Task<IResult> GetGearInPackingList(int PackingListId, GearDb db)
+{
+    var packinglist = await db.PackingLists
+        .Where(p => p.PackingListId == PackingListId)
+        .SelectMany(p => p.Items)
+        .ToListAsync();
+
+    return TypedResults.Ok(packinglist);
+}
+
+static async Task<IResult> AddGearToPackingList(int PackingListId, int GearId)
+{
+    
 }
