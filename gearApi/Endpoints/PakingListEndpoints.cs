@@ -106,6 +106,10 @@ public static class PackingListEndpoints
             else if (op == -1)
             {
                 item.Quantity -= 1;
+                if (item.Quantity <= 0)
+                {
+                    db.PackingListItems.Remove(item);
+                }
             }
 
         }

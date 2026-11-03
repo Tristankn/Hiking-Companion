@@ -4,11 +4,15 @@ A web application for managing hiking equipment, creating packing lists, and tra
 
 ## Features
 
-*To be added.*
+- Manage hiking equipment and categories through a REST API.
+- Create and manage packing lists.
+- Basic frontend for displaying equipment.
+- More features to be added.
 
 ## Tech Stack
 
 - **Backend:** C# / ASP.NET Core Minimal API
+- **Frontend:** HTML, CSS, JavaScript
 - **ORM:** Entity Framework Core
 - **Database:** PostgreSQL 18
 - **Containerization:** Docker Compose
@@ -18,15 +22,39 @@ A web application for managing hiking equipment, creating packing lists, and tra
 
 ### Prerequisites
 
-*To be added.*
-
-### Installation
-
-*To be added.*
+- .NET SDK
+- Docker and Docker Compose
+- VS Code with the Five Server extension (or another local web server)
 
 ### Running the Application
 
-*To be added.*
+**1. Start PostgreSQL**
+
+From the project root:
+
+```bash
+docker compose up -d
+```
+
+**2. Start the backend**
+
+From `gearApi/`:
+
+```bash
+dotnet watch run
+```
+
+The API runs at `http://localhost:5289` when using the configured development port.
+
+**3. Start the frontend**
+
+1. Open `frontend/index.html` in VS Code.
+2. Right-click and select **Open with Five Server**.
+3. The frontend opens in your browser, typically at `http://127.0.0.1:5500`.
+
+The frontend uses JavaScript `fetch()` to communicate with the backend API.
+
+**Note:** The backend uses CORS to allow requests from the frontend. If Five Server uses a different host or port, update the allowed origin in `gearApi/Program.cs`.
 
 ## Database
 
