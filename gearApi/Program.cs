@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
 using gearApi.Models;
+using Microsoft.AspNetCore.Http.Features;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,7 +35,14 @@ categories.MapGet("/{CategoryId}/gear", GetGearInCategory);
 categories.MapPost("/", CreateCategory);
 categories.MapDelete("/{id}", DeleteCategory);
 
-var packinglist = app.MapGroup("/packinglist");
+var packinglist = app.MapGroup("/packinglists");
+
+packinglist.MapPost("/", CreatePackinglist);
+packinglist.MapGet("/", GetPackingLists);
+packinglist.MapGet("/{PackingListId}/gear", GetGearInPackingList);
+packinglist.MapPost("/{PackingListId}/items/{GearId}", AddGearToPackingList);
+packinglist.MapPut("/{PackingListId}/items/{GearId}", ChangeGearQuantity);
+
 
 app.Run();
 
@@ -70,10 +78,10 @@ static async Task<IResult> CreateGear(GearRequest request, GearDb db)
 
     await db.SaveChangesAsync();
 
-    return TypedResults.Created($"/gear/{gear.Id}", gear);
+    return TypedResults.Created($"/gear/{gear.GearId}", gear);
 }
 
-static async Task<IResult> UpdateGear(int id, GearRequest request, GearDb db)
+static async Task<IResult> UpdateGear(int GearId, GearRequest request, GearDb db)
 {
     string? error = ValidateGear(request);
     if(error is not null)
@@ -81,7 +89,7 @@ static async Task<IResult> UpdateGear(int id, GearRequest request, GearDb db)
         return TypedResults.BadRequest(error);
     }
 
-    var gear = await db.Gear.FindAsync(id);
+    var gear = await db.Gear.FindAsync(GearId);
     if (gear is null) return TypedResults.NotFound();
 
 
@@ -94,9 +102,9 @@ static async Task<IResult> UpdateGear(int id, GearRequest request, GearDb db)
     return TypedResults.NoContent();
 }
 
-static async Task<IResult> DeleteGear(int id, GearDb db)
+static async Task<IResult> DeleteGear(int GearId, GearDb db)
 {
-    if (await db.Gear.FindAsync(id) is Gear gear)
+    if (await db.Gear.FindAsync(GearId) is Gear gear)
     {
         db.Gear.Remove(gear);
         await db.SaveChangesAsync();
@@ -191,4 +199,97 @@ static async Task<IResult> DeleteCategory(int id, GearDb db)
     }
 
     return TypedResults.NotFound();
+}
+
+static async Task<IResult> CreatePackinglist(PackingListRequest request, GearDb db)
+{
+    var packinglist = new PackingList
+    {
+        Name = request.Name
+    };
+
+    db.PackingLists.Add(packinglist);
+    await db.SaveChangesAsync();
+    return TypedResults.Created($"/packinglists/{packinglist.PackingListId}", packinglist);    
+}
+
+static async Task<IResult> GetPackingLists(GearDb db)
+{
+    var packinglist = await db.PackingLists
+    .Include(p => p.Items)
+    .ThenInclude(i => i.Gear)
+    .ToListAsync();
+
+    return TypedResults.Ok(packinglist);
+}
+
+static async Task<IResult> GetGearInPackingList(int PackingListId, GearDb db)
+{
+    var packinglist = await db.PackingLists
+        .Where(p => p.PackingListId == PackingListId)
+        .SelectMany(p => p.Items)
+        .Include(i => i.Gear)
+        .ToListAsync();
+
+    return TypedResults.Ok(packinglist);
+}
+
+static async Task<IResult> AddGearToPackingList(int PackingListId, int GearId, GearDb db)
+{
+    var packinglist = await db.PackingLists.FindAsync(PackingListId);
+    if (packinglist is null) return TypedResults.NotFound();
+
+    var item = await db.PackingListItems
+        .FirstOrDefaultAsync(i => 
+        i.PackingListId == PackingListId &&
+        i.GearId == GearId);
+    
+    if(item != null)
+    {
+        item.Quantity += 1;
+    }
+    else
+    {
+        var gear = await db.Gear.FindAsync(GearId);
+        if (gear is null) return TypedResults.NotFound();
+
+        var packeditem = new PackingListItem();
+        packeditem.Gear = gear;
+
+        packinglist.Items.Add(packeditem);
+
+    }
+
+    await db.SaveChangesAsync();
+    return TypedResults.NoContent();
+
+}
+
+static async Task<IResult> ChangeGearQuantity (int PackingListId, int GearId, int op, GearDb db)
+{
+    var item = await db.PackingListItems
+        .FirstOrDefaultAsync(i => 
+        i.PackingListId == PackingListId &&
+        i.GearId == GearId);
+
+    if(item != null)
+    {
+        if(op == 1)
+        {
+            item.Quantity += 1;
+        }
+        else if(op == -1)
+        {
+            item.Quantity -= 1;
+        }
+        
+    }
+    else
+    {
+        return TypedResults.NotFound();
+    }
+    
+    await db.SaveChangesAsync();
+    return TypedResults.NoContent();
+    
 }
