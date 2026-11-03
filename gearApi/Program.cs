@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
 using gearApi.Models;
+using Microsoft.AspNetCore.Http.Features;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,7 +40,8 @@ var packinglist = app.MapGroup("/packinglists");
 packinglist.MapPost("/", CreatePackinglist);
 packinglist.MapGet("/", GetPackingLists);
 packinglist.MapGet("/{PackingListId}/gear", GetGearInPackingList);
-packinglist.MapPut("/{PackingListId}", AddGearToPackingList);
+packinglist.MapPost("/{PackingListId}/items/{GearId}", AddGearToPackingList);
+packinglist.MapPut("/{PackingListId}/items/{GearId}", ChangeGearQuantity);
 
 
 app.Run();
@@ -213,7 +215,12 @@ static async Task<IResult> CreatePackinglist(PackingListRequest request, GearDb 
 
 static async Task<IResult> GetPackingLists(GearDb db)
 {
-    return TypedResults.Ok(await db.PackingLists.ToArrayAsync());
+    var packinglist = await db.PackingLists
+    .Include(p => p.Items)
+    .ThenInclude(i => i.Gear)
+    .ToListAsync();
+
+    return TypedResults.Ok(packinglist);
 }
 
 static async Task<IResult> GetGearInPackingList(int PackingListId, GearDb db)
@@ -221,12 +228,56 @@ static async Task<IResult> GetGearInPackingList(int PackingListId, GearDb db)
     var packinglist = await db.PackingLists
         .Where(p => p.PackingListId == PackingListId)
         .SelectMany(p => p.Items)
+        .Include(i => i.Gear)
         .ToListAsync();
 
     return TypedResults.Ok(packinglist);
 }
 
-static async Task<IResult> AddGearToPackingList(int PackingListId, int GearId)
+static async Task<IResult> AddGearToPackingList(int PackingListId, int GearId, GearDb db)
 {
+    var packinglist = await db.PackingLists.FindAsync(PackingListId);
+    if (packinglist is null) return TypedResults.NotFound();
+
+
+    var gear = await db.Gear.FindAsync(GearId);
+    if (gear is null) return TypedResults.NotFound();
+
+    var packeditem = new PackingListItem();
+    packeditem.Gear = gear;
+
+    packinglist.Items.Add(packeditem);
+
+    await db.SaveChangesAsync();
+    return TypedResults.NoContent();
+
+}
+
+static async Task<IResult> ChangeGearQuantity (int PackingListId, int GearId, int op, GearDb db)
+{
+    var item = await db.PackingListItems
+        .FirstOrDefaultAsync(i => 
+        i.PackingListId == PackingListId &&
+        i.GearId == GearId);
+
+    if(item != null)
+    {
+        if(op == 1)
+        {
+            item.Quantity += 1;
+        }
+        else
+        {
+            item.Quantity -= 1;
+        }
+        
+    }
+    else
+    {
+        return TypedResults.NotFound();
+    }
+    
+    await db.SaveChangesAsync();
+    return TypedResults.NoContent();
     
 }

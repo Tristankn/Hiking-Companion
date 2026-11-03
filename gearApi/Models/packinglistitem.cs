@@ -4,8 +4,7 @@ public class PackingListItem
 {
     public int PackingListItemId { get; set; }
     public int GearId { get; set; }
-    public int GearName { get; set; }
-    public int Quantity { get; set; }
+    public int Quantity { get; set; } = 1;
 
     public Gear Gear { get; set; } = null!;
 

@@ -44,11 +44,11 @@ namespace gearApi.Migrations
 
             modelBuilder.Entity("gearApi.Models.Gear", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("GearId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("GearId"));
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("integer");
@@ -59,11 +59,59 @@ namespace gearApi.Migrations
                     b.Property<int>("Weight")
                         .HasColumnType("integer");
 
-                    b.HasKey("Id");
+                    b.HasKey("GearId");
 
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Gear");
+                });
+
+            modelBuilder.Entity("gearApi.Models.PackingList", b =>
+                {
+                    b.Property<int>("PackingListId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("PackingListId"));
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("PackingListId");
+
+                    b.ToTable("PackingLists");
+                });
+
+            modelBuilder.Entity("gearApi.Models.PackingListItem", b =>
+                {
+                    b.Property<int>("PackingListItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("PackingListItemId"));
+
+                    b.Property<int>("GearId")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsPacked")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsWorn")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("PackingListId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.HasKey("PackingListItemId");
+
+                    b.HasIndex("GearId");
+
+                    b.HasIndex("PackingListId");
+
+                    b.ToTable("PackingListItem");
                 });
 
             modelBuilder.Entity("gearApi.Models.Gear", b =>
@@ -75,6 +123,28 @@ namespace gearApi.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("gearApi.Models.PackingListItem", b =>
+                {
+                    b.HasOne("gearApi.Models.Gear", "Gear")
+                        .WithMany()
+                        .HasForeignKey("GearId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("gearApi.Models.PackingList", null)
+                        .WithMany("Items")
+                        .HasForeignKey("PackingListId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Gear");
+                });
+
+            modelBuilder.Entity("gearApi.Models.PackingList", b =>
+                {
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }
